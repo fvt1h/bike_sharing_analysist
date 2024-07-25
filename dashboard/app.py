@@ -21,6 +21,13 @@ def create_avg_rentals_by_weather_df(df):
 # Streamlit app
 st.title('Bike Sharing Analysis Dashboard')
 
+# Sidebar untuk filter
+st.sidebar.header('Filter Data')
+season_options = st.sidebar.multiselect('Select Seasons', df_bike['season'].unique(), df_bike['season'].unique())
+weather_options = st.sidebar.multiselect('Select Weather Conditions', df_bike['weather'].unique(), df_bike['weather'].unique())
+
+filtered_df = df_bike[(df_bike['season'].isin(season_options)) & (df_bike['weather'].isin(weather_options))]
+
 # Plot total rentals by season
 st.subheader('Total Rentals by Season')
 rentals_by_season_df = create_total_rentals_by_season_df(df_bike)
