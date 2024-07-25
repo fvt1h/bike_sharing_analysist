@@ -8,41 +8,38 @@ import streamlit as st
 # Load the data
 df_bike = pd.read_csv('dashboard/bike.csv')
 
-# Mapping labels
-season_labels = {
-    1: 'Springer', 2: 'Summer', 3: 'Fall', 4: 'Winter'
-}
-weather_labels = {
-    1: 'Clear/Few Clouds/Partly Cloudy',
-    2: 'Misty/Cloudy',
-    3: 'Light Snow/Light Rain',
-    4: 'Heavy Rain/Ice Palletes'
-}
+def create_total_rentals_by_season_df(df):
+    rentals_by_season_df = df.groupby('season').agg({'count_hour': 'sum'}).reset_index()
+    rentals_by_season_df.rename(columns={'count_hour': 'total_rentals'}, inplace=True)
+    return rentals_by_season_df
 
-# Apply mappings
-df_bike['season'] = df_bike['season'].map(season_labels)
-df_bike['weather'] = df_bike['weather'].map(weather_labels)
+def create_avg_rentals_by_weather_df(df):
+    avg_rentals_by_weather_df = df.groupby('weather').agg({'count_hour': 'mean'}).reset_index()
+    avg_rentals_by_weather_df.rename(columns={'count_hour': 'average_rentals'}, inplace=True)
+    return avg_rentals_by_weather_df
 
 # Streamlit app
 st.title('Bike Sharing Analysis Dashboard')
 
 # Plot total rentals by season
 st.subheader('Total Rentals by Season')
+rentals_by_season_df = create_total_rentals_by_season_df(df_bike)
 plt.figure(figsize=(10, 6))
-sns.barplot(x='season', y='count_hour', data=df_bike, estimator=sum)
+sns.barplot(x='season', y='total_rentals', data=rentals_by_season_df)
 plt.title('Total Rentals by Season')
 plt.xlabel('Season')
 plt.ylabel('Total Rentals')
-st.pyplot(plt.gcf())  # Use plt.gcf() to get the current figure
+st.pyplot(plt.gcf())
 
 # Plot average rentals by weather
 st.subheader('Average Rentals by Weather')
+avg_rentals_by_weather_df = create_avg_rentals_by_weather_df(df_bike)
 plt.figure(figsize=(10, 6))
-sns.barplot(x='weather', y='count_hour', data=df_bike)
+sns.barplot(x='weather', y='average_rentals', data=avg_rentals_by_weather_df)
 plt.title('Average Rentals by Weather')
 plt.xlabel('Weather Condition')
 plt.ylabel('Average Rentals')
-st.pyplot(plt.gcf())  # Use plt.gcf() to get the current figure
+st.pyplot(plt.gcf())
 
 # Conclusions
 st.subheader('Conclusions')
