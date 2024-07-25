@@ -51,9 +51,23 @@ with st.container():
     ax_weather.set_ylabel('Average Rentals')
     st.pyplot(fig_weather)
 
-# Conclusions
+# Enhanced Conclusions
 st.subheader('Conclusions')
-st.write('**Question 1:** What weather conditions have the highest bike rentals?')
-st.write('**Answer 1:** Clear weather with few clouds has the highest bike rentals.')
-st.write('**Question 2:** During which season are bike rentals the highest?')
-st.write('**Answer 2:** Fall season has the highest average bike rentals.')
+
+# Use Markdown for better visual appeal
+st.markdown(
+    """
+    <div style="padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+        <h3 style="color: #007BFF;">Question 1:</h3>
+        <p><strong>What weather conditions have the highest bike rentals?</strong></p>
+        <p><em>Answer 1:</em> Clear weather with few clouds has the highest bike rentals.</p>
+
+        <h3 style="color: #007BFF;">Question 2:</h3>
+        <p><strong>During which season are bike rentals the highest?</strong></p>
+        <p><em>Answer 2:</em> Fall season has the highest average bike rentals.</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown('---')  # Horizontal line for separation
