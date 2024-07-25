@@ -6,7 +6,7 @@ import seaborn as sns
 import streamlit as st
 
 # Load the data
-df_bike = pd.read_csv('bike.csv')
+df_bike = pd.read_csv('dashboard/bike.csv')
 
 # Mapping labels
 season_labels = {
