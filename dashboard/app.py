@@ -29,30 +29,26 @@ weather_options = st.sidebar.multiselect('Select Weather Conditions', df_bike['w
 # Filter dataframe berdasarkan pilihan di sidebar
 filtered_df = df_bike[(df_bike['season'].isin(season_options)) & (df_bike['weather'].isin(weather_options))]
 
-# Layout grafik 
-col1, col2 = st.columns(2)
+# Plot total rentals by season dan average rentals by weather
+st.subheader('Total Rentals by Season dan Average Rentals by Weather')
+fig, ax = plt.subplots(1, 2, figsize=(18, 6))
 
 # Plot total rentals by season
-with col1:
-    st.subheader('Total Rentals by Season')
-    rentals_by_season_df = create_total_rentals_by_season_df(filtered_df)
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x='season', y='total_rentals', data=rentals_by_season_df, palette='viridis')
-    plt.title('Total Rentals by Season')
-    plt.xlabel('Season')
-    plt.ylabel('Total Rentals')
-    st.pyplot(plt.gcf())
+rentals_by_season_df = create_total_rentals_by_season_df(filtered_df)
+sns.barplot(x='season', y='total_rentals', data=rentals_by_season_df, palette='viridis', ax=ax[0])
+ax[0].set_title('Total Rentals by Season')
+ax[0].set_xlabel('Season')
+ax[0].set_ylabel('Total Rentals')
 
 # Plot average rentals by weather
-with col2:
-    st.subheader('Average Rentals by Weather')
-    avg_rentals_by_weather_df = create_avg_rentals_by_weather_df(filtered_df)
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x='weather', y='average_rentals', data=avg_rentals_by_weather_df, palette='viridis')
-    plt.title('Average Rentals by Weather')
-    plt.xlabel('Weather Condition')
-    plt.ylabel('Average Rentals')
-    st.pyplot(plt.gcf())
+avg_rentals_by_weather_df = create_avg_rentals_by_weather_df(filtered_df)
+sns.barplot(x='weather', y='average_rentals', data=avg_rentals_by_weather_df, palette='viridis', ax=ax[1])
+ax[1].set_title('Average Rentals by Weather')
+ax[1].set_xlabel('Weather Condition')
+ax[1].set_ylabel('Average Rentals')
+
+# Menampilkan grafik dengan Streamlit
+st.pyplot(fig)
 
 # Conclusions
 st.subheader('Conclusions')
