@@ -26,23 +26,23 @@ df_bike['weather'] = df_bike['weather'].map(weather_labels)
 # Streamlit app
 st.title('Bike Sharing Analysis Dashboard')
 
-# Visualization 1: Total Rentals by Season
+# Plot total rentals by season
 st.subheader('Total Rentals by Season')
-fig, ax = plt.subplots(figsize=(10, 6))
-sns.barplot(x='season', y='count_hour', data=df_bike, estimator=sum, ax=ax)
-ax.set_title('Total Rentals by Season')
-ax.set_xlabel('Season')
-ax.set_ylabel('Total Rentals')
-st.pyplot(fig)
+plt.figure(figsize=(10, 6))
+sns.barplot(x='season', y='count_hour', data=df_bike, estimator=sum)
+plt.title('Total Rentals by Season')
+plt.xlabel('Season')
+plt.ylabel('Total Rentals')
+st.pyplot(plt.gcf())  # Use plt.gcf() to get the current figure
 
-# Visualization 2: Average Rentals by Weather Condition
-st.subheader('Average Rentals by Weather Condition')
-fig, ax = plt.subplots(figsize=(10, 6))
-sns.barplot(x='weather', y='count_hour', data=df_bike, estimator=np.mean, ax=ax)
-ax.set_title('Average Rentals by Weather Condition')
-ax.set_xlabel('Weather Condition')
-ax.set_ylabel('Average Rentals')
-st.pyplot(fig)
+# Plot average rentals by weather
+st.subheader('Average Rentals by Weather')
+plt.figure(figsize=(10, 6))
+sns.barplot(x='weather', y='count_hour', data=df_bike)
+plt.title('Average Rentals by Weather')
+plt.xlabel('Weather Condition')
+plt.ylabel('Average Rentals')
+st.pyplot(plt.gcf())  # Use plt.gcf() to get the current figure
 
 # Conclusions
 st.subheader('Conclusions')
