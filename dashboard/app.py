@@ -29,26 +29,27 @@ weather_options = st.sidebar.multiselect('Select Weather Conditions', df_bike['w
 # Filter dataframe berdasarkan pilihan di sidebar
 filtered_df = df_bike[(df_bike['season'].isin(season_options)) & (df_bike['weather'].isin(weather_options))]
 
-# Plot total rentals by season dan average rentals by weather
-st.subheader('Total Rentals by Season dan Average Rentals by Weather')
-fig, ax = plt.subplots(1, 2, figsize=(18, 6))
+# Create total rentals by season plot
+st.subheader('Total Rentals by Season')
+with st.container():
+    rentals_by_season_df = create_total_rentals_by_season_df(filtered_df)
+    fig_season, ax_season = plt.subplots(figsize=(14, 8))  # Adjust size to fit screen
+    sns.barplot(x='season', y='total_rentals', data=rentals_by_season_df, palette='viridis', ax=ax_season)
+    ax_season.set_title('Total Rentals by Season')
+    ax_season.set_xlabel('Season')
+    ax_season.set_ylabel('Total Rentals')
+    st.pyplot(fig_season)
 
-# Plot total rentals by season
-rentals_by_season_df = create_total_rentals_by_season_df(filtered_df)
-sns.barplot(x='season', y='total_rentals', data=rentals_by_season_df, palette='viridis', ax=ax[0])
-ax[0].set_title('Total Rentals by Season')
-ax[0].set_xlabel('Season')
-ax[0].set_ylabel('Total Rentals')
-
-# Plot average rentals by weather
-avg_rentals_by_weather_df = create_avg_rentals_by_weather_df(filtered_df)
-sns.barplot(x='weather', y='average_rentals', data=avg_rentals_by_weather_df, palette='viridis', ax=ax[1])
-ax[1].set_title('Average Rentals by Weather')
-ax[1].set_xlabel('Weather Condition')
-ax[1].set_ylabel('Average Rentals')
-
-# Menampilkan grafik dengan Streamlit
-st.pyplot(fig)
+# Create average rentals by weather plot
+st.subheader('Average Rentals by Weather')
+with st.container():
+    avg_rentals_by_weather_df = create_avg_rentals_by_weather_df(filtered_df)
+    fig_weather, ax_weather = plt.subplots(figsize=(14, 8))  # Adjust size to fit screen
+    sns.barplot(x='weather', y='average_rentals', data=avg_rentals_by_weather_df, palette='viridis', ax=ax_weather)
+    ax_weather.set_title('Average Rentals by Weather')
+    ax_weather.set_xlabel('Weather Condition')
+    ax_weather.set_ylabel('Average Rentals')
+    st.pyplot(fig_weather)
 
 # Conclusions
 st.subheader('Conclusions')
