@@ -26,27 +26,33 @@ st.sidebar.header('Filter Data')
 season_options = st.sidebar.multiselect('Select Seasons', df_bike['season'].unique(), df_bike['season'].unique())
 weather_options = st.sidebar.multiselect('Select Weather Conditions', df_bike['weather'].unique(), df_bike['weather'].unique())
 
+# Filter dataframe berdasarkan pilihan di sidebar
 filtered_df = df_bike[(df_bike['season'].isin(season_options)) & (df_bike['weather'].isin(weather_options))]
 
+# Layout grafik 
+col1, col2 = st.columns(2)
+
 # Plot total rentals by season
-st.subheader('Total Rentals by Season')
-rentals_by_season_df = create_total_rentals_by_season_df(df_bike)
-plt.figure(figsize=(10, 6))
-sns.barplot(x='season', y='total_rentals', data=rentals_by_season_df)
-plt.title('Total Rentals by Season')
-plt.xlabel('Season')
-plt.ylabel('Total Rentals')
-st.pyplot(plt.gcf())
+with col1:
+    st.subheader('Total Rentals by Season')
+    rentals_by_season_df = create_total_rentals_by_season_df(filtered_df)
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x='season', y='total_rentals', data=rentals_by_season_df, palette='viridis')
+    plt.title('Total Rentals by Season')
+    plt.xlabel('Season')
+    plt.ylabel('Total Rentals')
+    st.pyplot(plt.gcf())
 
 # Plot average rentals by weather
-st.subheader('Average Rentals by Weather')
-avg_rentals_by_weather_df = create_avg_rentals_by_weather_df(df_bike)
-plt.figure(figsize=(10, 6))
-sns.barplot(x='weather', y='average_rentals', data=avg_rentals_by_weather_df)
-plt.title('Average Rentals by Weather')
-plt.xlabel('Weather Condition')
-plt.ylabel('Average Rentals')
-st.pyplot(plt.gcf())
+with col2:
+    st.subheader('Average Rentals by Weather')
+    avg_rentals_by_weather_df = create_avg_rentals_by_weather_df(filtered_df)
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x='weather', y='average_rentals', data=avg_rentals_by_weather_df, palette='viridis')
+    plt.title('Average Rentals by Weather')
+    plt.xlabel('Weather Condition')
+    plt.ylabel('Average Rentals')
+    st.pyplot(plt.gcf())
 
 # Conclusions
 st.subheader('Conclusions')
